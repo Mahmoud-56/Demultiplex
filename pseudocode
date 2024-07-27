@@ -1,0 +1,53 @@
+# Initialize known indexes and reverse complement dictionary
+
+known_barcodes = [...]  # List of 24 known index sequences
+reverse_complements = {...}  # Dictionary giving the reverse complement for R3 
+possible_index_pairs = {...} #Possible index matches dict or set
+
+
+#Open input files
+open R1 for file reading  # Forward reads
+open R2 for file reading  # Index1 reads
+open R3 file for reading  # Index2 reads
+open R4 file for reading  # Reverse reads
+
+#Open R1 and R2 files 
+for each index_pair in known_barcodes:
+    open file index_pair_R1.fastq for writing
+    open file index_pair_R2.fastq for writing
+#Open R3 and R4 files 
+
+open file index_hopping_R1.fastq for writing
+open file index_hopping_R2.fastq for writing
+open file unknown_R1.fastq for writing
+open file unknown_R2.fastq for writing
+
+# Read the lines of input files 
+
+While True:
+    read R1, read R2, Read R3, Read R4
+
+    index1_seq = R2_seq
+    index2_seq = reverse_complements[R3_seq]  #R3 needs to be reverse complimented 
+    index_pair = index1_seq + "-" + R3_seq #We append the actual R3 not the reverse compliment to the header 
+
+# Check if both indexes are in our barcode list 
+    if index1_seq in known_barcodes and index2_seq in known_barcodes:
+        if valid_index_pair in possible_index_pairs:
+            # Write to matching index-pair files
+            append R1, R4 to index_pair_R1.fastq, index_pair_R2.fastq
+        else:
+            # Write to index-hopping files
+            append R1, R4 to index_hopping_R1.fastq, index_hopping_R2.fastq
+    else:
+        # Write to unknown index-pair files
+        append R1, R4 to unknown_R1.fastq, unknown_R2.fastq
+
+    # Append index pair to headers for each file 
+    R1_current_header += " " + index_pair
+    R4_current_header += " " + index_pair
+
+
+
+
+
