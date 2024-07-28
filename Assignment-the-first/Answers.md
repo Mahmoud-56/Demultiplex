@@ -22,7 +22,7 @@
 3. Upload your [4 input FASTQ files](../TEST-input_FASTQ) and your [>=6 expected output FASTQ files](../TEST-output_FASTQ).
 4. Pseudocode
     
-    [Pseudocode](/projects/bgmp/malm/bioinfo/Bi621/PS/Demultiplex/pseudocode/) 
+    [Pseudocode](https://github.com/Mahmoud-56/Demultiplex/blob/master/pseudocode) 
 5. High level functions. For each function, be sure to include:
     1. Description/doc string
     2. Function headers (name and parameters)
