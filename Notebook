@@ -1,0 +1,74 @@
+# Demultiplexing and Index Swapping – Assignment the First
+
+### Part 1 
+
+
+In Assignment the First, we will develop a strategy to de-multiplex samples to create 48 FASTQ files that contain acceptable index pairs (read1 and read2 for 24 different index pairs), two FASTQ files with index-hopped reads-pairs, and two FASTQ files undetermined (non-matching or low quality) index-pairs.
+
+De-multiplexing is necessary for downstream analyses.
+
+We submitted 24 indexed (dual matched) libraries for sequencing. The indexes are:
+
+```B1	GTAGCGTA    A5	CGATCGAT    C1	GATCAAGG
+B9	AACAGCGA    C9	TAGCCATG    C3	CGGTAATC
+B3	CTCTGGAT    C4	TACCGGAT    A11	CTAGCTCA
+C7	CACTTCAC    B2	GCTACTCT    A1	ACGATCAG
+B7	TATGGCAC    A3	TGTTCCGT    B4	GTCCTAAG
+A12	TCGACAAG    C10	TCTTCGAC    A2	ATCATGCG
+C2	ATCGTGGT    A10	TCGAGAGT    B8	TCGGATTC
+A7	GATCTTGC    B10	AGAGTCCA    A8	AGGATAGC
+```
+
+**Dual matched is when the index matches on both sides** 
+
+We have 4 FASTQ input files on Talas: ```/projects/bgmp/shared/2017_sequencing/```
+
+```
+1294_S1_L008_R1_001.fastq.gz
+1294_S1_L008_R2_001.fastq.gz
+1294_S1_L008_R3_001.fastq.gz
+1294_S1_L008_R4_001.fastq.gz
+```
+Initial data exploration includes the following: 
+**Use zcat before commands to view the contents of the files without unzipping them**
+- How big is the each file? ```ls -lah```
+```
+-rw-r-xr--+  1 coonrod  is.racs.pirg.bgmp  20G Jul 30  2018 1294_S1_L008_R1_001.fastq.gz
+-rw-r-xr--+  1 coonrod  is.racs.pirg.bgmp 2.6G Jul 30  2018 1294_S1_L008_R2_001.fastq.gz
+-rw-r-xr--+  1 coonrod  is.racs.pirg.bgmp 2.8G Jul 30  2018 1294_S1_L008_R3_001.fastq.gz
+-rw-r-xr--+  1 coonrod  is.racs.pirg.bgmp  21G Jul 30  2018 1294_S1_L008_R4_001.fastq.gz 
+```
+- Number of lines? ```zcat <filename> | wc -l``` 
+```1452986940 1294_S1_L008_R1_001.fastq.gz 
+1452986940 1294_S1_L008_R2_001.fastq.gz
+1452986940 1294_S1_L008_R3_001.fastq.gz
+1452986940 1294_S1_L008_R4_001.fastq.gz
+```
+Index files will have sequences much shorter than files containing reads so just by looking at the files we can tell which one is which. Also the order should always be this 
+R1 --> fw read
+R3 --> Index 1
+R3 --> Index 2 (has to be reverse complemented here but this is not always the case)
+R4 --> rv read 
+
+To find the Phred encoding, we look at the quality score lines, and see where on the ASCII table do the values fall. Here they are all Phred+33
+
+To find the read length for each FASTQ file: 
+```
+zcat <filename> | grep -v "@"|head -n 1  | wc -c 
+Then the answer -1 to account for tab character 
+```
+
+To find the number of sequences in the index files that contain an undertermined base "N" I used the following bash command:
+
+```zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz | awk 'NR%4==2' | sort| uniq -c | grep -c "N"```
+
+The awk command looks a bit weird but it makes sense and I should use it this way easier than using greps. NR refres to the number of records followed by the normal modulus command. So it is going through every sequence line in the record. 
+
+
+The third 
+working on the python script
+
+- Percentage of reads from each sample which is how many samples had index1 index1 / index2 index2 ... index24 index24 ... how many each group had 
+- Open the files outside the loops and remember to close them 
+
+
