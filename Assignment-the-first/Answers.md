@@ -18,7 +18,14 @@
      [R3 Distribution](https://github.com/Mahmoud-56/Demultiplex/blob/master/Assignment-the-first/quality_score_distribution_Index2.png) 
      [R4 Distribution](https://github.com/Mahmoud-56/Demultiplex/blob/master/Assignment-the-first/quality_score_distribution_Read2.png)       
   
-    
+
+    Quality score cutoff:
+
+    I will set the cutoff at 30 since by looking at the average reads graph, the average is slightly above 30. Also according to Illumina, Q30 quality score is considered the benchmark for high quality next-generation sequencing.
+
+    https://www.illumina.com/documents/products/technotes/technote_Q-Scores.pdf
+
+
 ## Part 2
 1. Define the problem
    
