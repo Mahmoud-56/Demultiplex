@@ -54,7 +54,7 @@ To find the Phred encoding, we look at the quality score lines, and see where on
 
 To find the read length for each FASTQ file: 
 ```
-zcat <filename> | grep -v "@"|head -n 1  | wc -c 
+zcat <filename> | grep -v "@"|head -n 1| wc -c 
 Then the answer -1 to account for tab character 
 ```
 
