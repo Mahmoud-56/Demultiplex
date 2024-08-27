@@ -29,9 +29,10 @@ def get_args():
 
 args = get_args()
 
+complement = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', 'N': 'N'} #outside the function, so it's not created each time that function is called.
+
 def reverse_complement(sequence: str):
     '''Returns the reverse complement of a DNA sequence.'''
-    complement = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', 'N': 'N'}
     rev_comp = ''
     for base in sequence:
         rev_comp = complement[base] + rev_comp
